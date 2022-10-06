@@ -1,0 +1,107 @@
+@font-face {
+    font-family: schollbell;
+    src: url(https://fonts.gstatic.com/s/schoolbell/v18/92zQtBZWOrcgoe-fgnJIZxUa6w.woff2);
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.full_size {
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    overflow-x: hidden;
+}
+
+.input_container {
+    height: calc(100% - 18px);
+    width: calc(100% - 28px);
+    margin: 16px;
+    display: grid;
+    grid-template-rows: 30px 30px 30px;
+}
+
+.font_container {
+    display: grid;
+    grid-template-columns: 1fr 70px;
+}
+
+.input {
+    width: 100%;
+    height: calc(100% - 24px);
+    margin: auto;
+    resize: none;
+    overflow-y: scroll;
+}
+
+.generate_button {
+    width: calc(100% + 6px);
+    padding: 0;
+    margin: 0;
+}
+
+.paper_container {
+    background-image: linear-gradient(#999 1px, transparent 0.05px);
+    background-color: unset !important;
+    background-size: 100% 20px;
+    overflow-x: hidden;
+}
+
+.paper_wrapper {
+    width: calc(100% - 1px);
+    font-size: 14px;
+    color: #000000;
+    font-family: schollbell, serif;
+    line-height: 20.15px;
+    display: grid;
+    grid-template-rows: 39px auto;
+    overflow-x: hidden;
+    border-right: 1px #f3f3f3 solid;
+}
+
+.padding_top {
+    border-bottom: 2px solid pink;
+    background: white;
+    line-height: 18px;
+    width: calc(100% - 8px);
+    height: calc(100% - 8px);
+    padding: 4px;
+}
+
+.paper_content {
+    display: grid;
+    grid-template-columns: 50px calc(100% - 50px);
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.padding_left {
+    width: calc(100% - 10px);
+    padding: 0 5px;
+    border-right: 2px solid pink;
+    text-align: end;
+}
+
+.paper_text {
+    width: calc(100% - 8px - 4px);
+    height: 100%;
+    color: black;
+    margin: auto auto auto 8px;
+    word-wrap: break-word;
+}
+
+[contenteditable]:focus {
+    outline: 1px solid #000000FA;
+}
+
+[contenteditable] {
+    overflow-y: hidden;
+}
