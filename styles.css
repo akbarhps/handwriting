@@ -8,7 +8,7 @@
     --padding-line-width: 2px;
     --background-line-color: #999999;
     --background-line-width: 1px;
-    --text-left-margin: 8px;
+    --text-left-margin: 8;
 }
 
 html, body {
@@ -102,7 +102,7 @@ html, body {
 .paper_text {
     width: calc(100% - var(--text-left-margin) - 4px);
     height: 100%;
-    margin: auto auto auto var(--text-left-margin);
+    margin-left: var(--text-left-margin);
     word-wrap: break-word;
 }
 

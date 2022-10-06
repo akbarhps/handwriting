@@ -20,23 +20,25 @@ const generateButton = document.getElementById("button_generate");
 class Settings {
     constructor() {
         this.fontUrl = "";
-        this.fontSize = 14;
+        this.fontSize = '14';
         this.fontBold = false;
-        this.lineSpacing = 20.15;
-        this.textmarginLeft = 8;
-        this.paddingLeftWidth = 10;
-        this.paddingTopHeight = 58;
+        this.lineSpacing = '20.15';
+        this.textMarginLeft = '8';
+        this.paddingLeftWidth = '-10';
+        this.paddingTopHeight = '58';
         this.paddingLineColor = '#E00025';
-        this.paddingLineWidth = 2;
-        this.backgroundLineSpacing = 20;
+        this.paddingLineWidth = '2';
+        this.backgroundLineSpacing = '20';
         this.backgroundLineColor = '#999999';
-        this.backgroundLineWidth = 1;
+        this.backgroundLineWidth = '1';
+
+        this.load();
 
         inputCustomFontUrl.value = this.fontUrl;
         inputFontSize.value = this.fontSize;
         inputFontBold.checked = this.fontBold;
         inputLineSpacing.value = this.lineSpacing;
-        inputTextMarginLeft.value = this.textmarginLeft;
+        inputTextMarginLeft.value = this.textMarginLeft;
         inputBackgroundLineSpacing.value = this.backgroundLineSpacing;
         inputPaddingLeftWidth.value = this.paddingLeftWidth;
         inputPaddingTopHeight.value = this.paddingTopHeight;
@@ -44,26 +46,48 @@ class Settings {
         inputPaddingLineWidth.value = this.paddingLineWidth;
         inputBackgroundLineColor.value = this.backgroundLineColor;
         inputBackgroundLineWidth.value = this.backgroundLineWidth;
-
-        this.load();
     }
 
     fromObject(obj) {
-        this.fontUrl = obj.fontUrl;
-        this.fontSize = obj.fontSize;
-        this.fontBold = obj.fontBold;
-        this.lineSpacing = obj.lineSpacing;
-        this.textmarginLeft.value = obj.textmarginLeft;
-        this.paddingLeftWidth = obj.paddingLeftWidth;
-        this.paddingTopHeight = obj.paddingTopHeight;
-        this.paddingLineColor = obj.paddingLineColor;
-        this.paddingLineWidth = obj.paddingLineWidth;
-        this.backgroundLineSpacing = obj.backgroundLineSpacing;
-        this.backgroundLineColor = obj.backgroundLineColor;
-        this.backgroundLineWidth = obj.backgroundLineWidth;
+        if(obj.fontUrl)
+            this.fontUrl = obj.fontUrl;
+
+        if(obj.fontSize)
+            this.fontSize = obj.fontSize;
+
+        if(obj.fontBold)
+            this.fontBold = obj.fontBold;
+
+        if(obj.lineSpacing)
+            this.lineSpacing = obj.lineSpacing;
+
+        if(obj.textMarginLeft)
+            this.textMarginLeft = obj.textMarginLeft;
+
+        if(obj.paddingLeftWidth)
+            this.paddingLeftWidth = obj.paddingLeftWidth;
+
+        if(obj.paddingTopHeight)
+            this.paddingTopHeight = obj.paddingTopHeight;
+
+        if(obj.paddingLineColor)
+            this.paddingLineColor = obj.paddingLineColor;
+
+        if(obj.paddingLineWidth)
+            this.paddingLineWidth = obj.paddingLineWidth;
+
+        if(obj.backgroundLineSpacing)
+            this.backgroundLineSpacing = obj.backgroundLineSpacing;
+
+        if(obj.backgroundLineColor)
+            this.backgroundLineColor = obj.backgroundLineColor;
+
+        if(obj.backgroundLineWidth)
+            this.backgroundLineWidth = obj.backgroundLineWidth;
     }
 
     update() {
+        console.log(settings.textMarginLeft)
         document.cookie = `settings=${JSON.stringify(this)}`;
     }
 
@@ -117,7 +141,7 @@ const updateLineSpacing = (lineSpacing) => {
 
 const updateTextMarginLeft = (textMarginLeft) => {
     document.documentElement.style.setProperty('--text-left-margin', `${textMarginLeft}px`);
-    settings.textmarginLeft = textMarginLeft;
+    settings.textMarginLeft = textMarginLeft;
     settings.update();
 }
 
@@ -227,7 +251,7 @@ const settings = new Settings();
 updateFontSize(settings.fontSize);
 updateFontBold(settings.fontBold);
 updateLineSpacing(settings.lineSpacing);
-updateTextMarginLeft(settings.textmarginLeft);
+updateTextMarginLeft(settings.textMarginLeft);
 updateBackgroundLineSpacing(settings.backgroundLineSpacing);
 updatePaddingLeftWidth(settings.paddingLeftWidth);
 updatePaddingTopHeight(settings.paddingTopHeight);
