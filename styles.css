@@ -17,21 +17,19 @@ html, body {
 
 .container {
     display: grid;
-    grid-template-columns: 450px 1fr;
+    grid-template-columns: 1fr 1fr;
     overflow-x: hidden;
+    align-content: center;
+    justify-content: center;
 }
 
 .input_container {
     height: calc(100% - 18px);
     width: calc(100% - 28px);
-    margin: 16px;
     display: grid;
     grid-template-rows: 30px 30px 30px;
-}
-
-.font_container {
-    display: grid;
-    grid-template-columns: 1fr 70px;
+    align-content: center;
+    justify-content: center;
 }
 
 .input {
@@ -49,6 +47,9 @@ html, body {
 }
 
 .paper_container {
+    width: 450px;
+    margin: auto;
+    height: calc(11.7 * 400px/8.3);
     background-image: linear-gradient(#999 1px, transparent 0.05px);
     background-color: unset !important;
     background-size: 100% 20px;
@@ -56,7 +57,8 @@ html, body {
 }
 
 .paper_wrapper {
-    width: calc(100% - 1px);
+    height: calc(100% - 2px);
+    width: calc(100% - 2px);
     font-size: 14px;
     color: #000000;
     font-family: schollbell, serif;
@@ -64,7 +66,7 @@ html, body {
     display: grid;
     grid-template-rows: 39px auto;
     overflow-x: hidden;
-    border-right: 1px #f3f3f3 solid;
+    border: 1px #f3f3f3 solid;
 }
 
 .padding_top {
@@ -93,7 +95,6 @@ html, body {
 .paper_text {
     width: calc(100% - 8px - 4px);
     height: 100%;
-    color: black;
     margin: auto auto auto 8px;
     word-wrap: break-word;
 }
@@ -104,4 +105,8 @@ html, body {
 
 [contenteditable] {
     overflow-y: hidden;
+}
+
+font {
+    color: black;
 }
