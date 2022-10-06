@@ -3,6 +3,14 @@
     src: url(https://fonts.gstatic.com/s/schoolbell/v18/92zQtBZWOrcgoe-fgnJIZxUa6w.woff2);
 }
 
+:root {
+    --padding-line-color: #E00025;
+    --padding-line-width: 2px;
+    --background-line-color: #999999;
+    --background-line-width: 1px;
+    --text-left-margin: 8px;
+}
+
 html, body {
     width: 100%;
     height: 100%;
@@ -19,15 +27,13 @@ html, body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow-x: hidden;
-    align-content: center;
-    justify-content: center;
 }
 
 .input_container {
     height: calc(100% - 18px);
     width: calc(100% - 28px);
+    padding: 0 14px;
     display: grid;
-    grid-template-rows: 30px 30px 30px;
     align-content: center;
     justify-content: center;
 }
@@ -47,13 +53,14 @@ html, body {
 }
 
 .paper_container {
-    width: 450px;
-    margin: auto;
-    height: calc(11.7 * 400px/8.3);
-    background-image: linear-gradient(#999 1px, transparent 0.05px);
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(var(--background-line-color) var(--background-line-width), transparent 0.05px);
     background-color: unset !important;
     background-size: 100% 20px;
     overflow-x: hidden;
+    overflow-y: hidden;
+    resize: both;
 }
 
 .paper_wrapper {
@@ -64,17 +71,17 @@ html, body {
     font-family: schollbell, serif;
     line-height: 20.15px;
     display: grid;
-    grid-template-rows: 39px auto;
+    grid-template-rows: auto 1fr;
     overflow-x: hidden;
     border: 1px #f3f3f3 solid;
 }
 
 .padding_top {
-    border-bottom: 2px solid pink;
+    border-bottom: var(--padding-line-width) solid var(--padding-line-color);
     background: white;
     line-height: 18px;
     width: calc(100% - 8px);
-    height: calc(100% - 8px);
+    height: calc(58px - 8px);
     padding: 4px;
 }
 
@@ -88,25 +95,25 @@ html, body {
 .padding_left {
     width: calc(100% - 10px);
     padding: 0 5px;
-    border-right: 2px solid pink;
+    border-right: var(--padding-line-width) solid var(--padding-line-color);
     text-align: end;
 }
 
 .paper_text {
-    width: calc(100% - 8px - 4px);
+    width: calc(100% - var(--text-left-margin) - 4px);
     height: 100%;
-    margin: auto auto auto 8px;
+    margin: auto auto auto var(--text-left-margin);
     word-wrap: break-word;
 }
 
-[contenteditable]:focus {
-    outline: 1px solid #000000FA;
-}
+/*[contenteditable]:focus {*/
+/*    outline: 1px solid #000000FA;*/
+/*}*/
 
-[contenteditable] {
-    overflow-y: hidden;
-}
+/*[contenteditable] {*/
+/*    overflow-y: hidden;*/
+/*}*/
 
-font {
-    color: black;
-}
+/*font {*/
+/*    color: black;*/
+/*}*/

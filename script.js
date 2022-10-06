@@ -1,14 +1,215 @@
-const input = document.getElementById("input_text");
 const paperContainer = document.getElementById("paper_container");
 const paperText = document.getElementById("paper_text");
-const generateButton = document.getElementById("generate_button");
 
-const fontInput = document.getElementById("input_custom_font");
-const fontButton = document.getElementById("font_button");
+const inputCustomFontUrl = document.getElementById("input_custom_font_url");
+const inputFontSize = document.getElementById("input_font_size");
+const inputFontBold = document.getElementById("input_font_bold");
+const inputLineSpacing = document.getElementById("input_line_spacing");
+const inputTextMarginLeft = document.getElementById("input_text_margin_left");
+const inputPaddingLeftWidth = document.getElementById("input_padding_left_width");
+const inputPaddingTopHeight = document.getElementById("input_padding_top_height");
+const inputPaddingLineColor = document.getElementById("input_padding_line_color");
+const inputPaddingLineWidth = document.getElementById("input_padding_line_width");
+const inputBackgroundLineSpacing = document.getElementById("input_background_line_spacing");
+const inputBackgroundLineColor = document.getElementById("input_background_line_color");
+const inputBackgroundLineWidth = document.getElementById("input_background_line_width");
 
-// input.addEventListener("input", (e) => {
-//     paperText.innerText = e.target.value;
-// });
+const fontButton = document.getElementById("button_change_font");
+const generateButton = document.getElementById("button_generate");
+
+class Settings {
+    constructor() {
+        this.fontUrl = "";
+        this.fontSize = 14;
+        this.fontBold = false;
+        this.lineSpacing = 20.15;
+        this.textmarginLeft = 8;
+        this.paddingLeftWidth = 10;
+        this.paddingTopHeight = 58;
+        this.paddingLineColor = '#E00025';
+        this.paddingLineWidth = 2;
+        this.backgroundLineSpacing = 20;
+        this.backgroundLineColor = '#999999';
+        this.backgroundLineWidth = 1;
+
+        inputCustomFontUrl.value = this.fontUrl;
+        inputFontSize.value = this.fontSize;
+        inputFontBold.checked = this.fontBold;
+        inputLineSpacing.value = this.lineSpacing;
+        inputTextMarginLeft.value = this.textmarginLeft;
+        inputBackgroundLineSpacing.value = this.backgroundLineSpacing;
+        inputPaddingLeftWidth.value = this.paddingLeftWidth;
+        inputPaddingTopHeight.value = this.paddingTopHeight;
+        inputPaddingLineColor.value = this.paddingLineColor;
+        inputPaddingLineWidth.value = this.paddingLineWidth;
+        inputBackgroundLineColor.value = this.backgroundLineColor;
+        inputBackgroundLineWidth.value = this.backgroundLineWidth;
+
+        this.load();
+    }
+
+    fromObject(obj) {
+        this.fontUrl = obj.fontUrl;
+        this.fontSize = obj.fontSize;
+        this.fontBold = obj.fontBold;
+        this.lineSpacing = obj.lineSpacing;
+        this.textmarginLeft.value = obj.textmarginLeft;
+        this.paddingLeftWidth = obj.paddingLeftWidth;
+        this.paddingTopHeight = obj.paddingTopHeight;
+        this.paddingLineColor = obj.paddingLineColor;
+        this.paddingLineWidth = obj.paddingLineWidth;
+        this.backgroundLineSpacing = obj.backgroundLineSpacing;
+        this.backgroundLineColor = obj.backgroundLineColor;
+        this.backgroundLineWidth = obj.backgroundLineWidth;
+    }
+
+    update() {
+        document.cookie = `settings=${JSON.stringify(this)}`;
+    }
+
+    load() {
+        const cookie = document.cookie.split(";").find(c => c.includes("settings"));
+        if (cookie) {
+            this.fromObject(JSON.parse(cookie.split("=")[1]));
+        }
+    }
+}
+
+const loadCustomFont = async (fontUrl) => {
+    if (!fontUrl) {
+        return;
+    }
+    const customFont = new FontFace('CustomFont', `url(${fontUrl})`);
+
+    try {
+        await customFont.load();
+        document.fonts.add(customFont);
+        paperText.style.fontFamily = "CustomFont";
+        settings.fontUrl = inputCustomFontUrl.value;
+        settings.update()
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+const updateFontSize = (fontSize) => {
+    inputFontSize.value = fontSize;
+    paperText.style.fontSize = `${fontSize}px`;
+    if (paperText.children[0]) {
+        paperText.children[0].style.fontSize = `${fontSize}px`;
+    }
+    settings.fontSize = fontSize;
+    settings.update();
+}
+
+const updateFontBold = (fontBold) => {
+    inputFontBold.checked = fontBold;
+    paperText.style.fontWeight = fontBold ? "bold" : "normal";
+    settings.fontBold = fontBold;
+    settings.update();
+}
+
+const updateLineSpacing = (lineSpacing) => {
+    paperText.style.lineHeight = `${lineSpacing}px`;
+    settings.lineSpacing = lineSpacing;
+    settings.update();
+}
+
+const updateTextMarginLeft = (textMarginLeft) => {
+    document.documentElement.style.setProperty('--text-left-margin', `${textMarginLeft}px`);
+    settings.textmarginLeft = textMarginLeft;
+    settings.update();
+}
+
+const updateBackgroundLineSpacing = (backgroundLineSpacing) => {
+    paperContainer.style.backgroundSize = `100% ${backgroundLineSpacing}px`;
+    settings.backgroundLineSpacing = backgroundLineSpacing;
+    settings.update();
+}
+
+const updatePaddingLeftWidth = (paddingLeftWidth) => {
+    document.getElementById("padding_left").style.width = `calc(100% - ${-paddingLeftWidth}px)`;
+    settings.paddingLeftWidth = paddingLeftWidth;
+    settings.update();
+}
+
+const updatePaddingTopHeight = (paddingTopHeight) => {
+    document.getElementById("padding_top").style.height = `calc(${paddingTopHeight}px - 8px)`;
+    settings.paddingTopHeight = paddingTopHeight;
+    settings.update();
+}
+
+const updatePaddingLineColor = (paddingLineColor) => {
+    document.documentElement.style.setProperty('--padding-line-color', paddingLineColor);
+    settings.paddingLineColor = paddingLineColor;
+    settings.update();
+}
+
+const updatePaddingLineWidth = (paddingLineWidth) => {
+    document.documentElement.style.setProperty('--padding-line-width', paddingLineWidth + "px");
+    settings.paddingLineWidth = paddingLineWidth;
+    settings.update();
+}
+
+const updateBackgroundLineColor = (backgroundLineColor) => {
+    document.documentElement.style.setProperty('--background-line-color', backgroundLineColor);
+    settings.backgroundLineColor = backgroundLineColor;
+    settings.update();
+}
+
+const updateBackgroundLineWidth = (backgroundLineWidth) => {
+    document.documentElement.style.setProperty('--background-line-width', backgroundLineWidth + "px");
+    settings.backgroundLineWidth = backgroundLineWidth;
+    settings.update();
+}
+
+fontButton.addEventListener("click", async () => {
+    await loadCustomFont(inputCustomFontUrl.value);
+});
+
+inputFontSize.addEventListener("change", () => {
+    updateFontSize(inputFontSize.value);
+});
+
+inputFontBold.addEventListener("change", () => {
+    updateFontBold(inputFontBold.checked);
+});
+
+inputLineSpacing.addEventListener("change", () => {
+    updateLineSpacing(inputLineSpacing.value);
+});
+
+inputBackgroundLineSpacing.addEventListener("change", () => {
+    updateBackgroundLineSpacing(inputBackgroundLineSpacing.value);
+});
+
+inputTextMarginLeft.addEventListener("change", () => {
+    updateTextMarginLeft(inputTextMarginLeft.value);
+});
+
+inputPaddingLeftWidth.addEventListener("change", () => {
+    updatePaddingLeftWidth(inputPaddingLeftWidth.value);
+});
+
+inputPaddingTopHeight.addEventListener("change", () => {
+    updatePaddingTopHeight(inputPaddingTopHeight.value);
+});
+
+inputPaddingLineColor.addEventListener("change", () => {
+    updatePaddingLineColor(inputPaddingLineColor.value);
+});
+
+inputPaddingLineWidth.addEventListener("change", () => {
+    updatePaddingLineWidth(inputPaddingLineWidth.value);
+});
+
+inputBackgroundLineColor.addEventListener("change", () => {
+    updateBackgroundLineColor(inputBackgroundLineColor.value);
+});
+
+inputBackgroundLineWidth.addEventListener("change", () => {
+    updateBackgroundLineWidth(inputBackgroundLineWidth.value);
+});
 
 generateButton.addEventListener("click", () => {
     html2canvas(paperContainer).then(canvas => {
@@ -17,15 +218,20 @@ generateButton.addEventListener("click", () => {
     });
 });
 
-fontButton.addEventListener("click", async () => {
-    const fontUrl = fontInput.value;
-    const customFont = new FontFace('CustomFont', `url(${fontUrl})`);
+const settings = new Settings();
 
-    try {
-        await customFont.load();
-        document.fonts.add(customFont);
-        paperText.style.fontFamily = "CustomFont";
-    } catch (e) {
-        console.error(e);
-    }
-});
+(async () => {
+    await loadCustomFont(settings.fontUrl);
+})();
+
+updateFontSize(settings.fontSize);
+updateFontBold(settings.fontBold);
+updateLineSpacing(settings.lineSpacing);
+updateTextMarginLeft(settings.textmarginLeft);
+updateBackgroundLineSpacing(settings.backgroundLineSpacing);
+updatePaddingLeftWidth(settings.paddingLeftWidth);
+updatePaddingTopHeight(settings.paddingTopHeight);
+updatePaddingLineColor(settings.paddingLineColor);
+updatePaddingLineWidth(settings.paddingLineWidth);
+updateBackgroundLineColor(settings.backgroundLineColor);
+updateBackgroundLineWidth(settings.backgroundLineWidth);
