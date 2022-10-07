@@ -17,9 +17,8 @@
             <div id="padding_top" class="padding_top full_size" contenteditable="true"></div>
 
             <div class="paper_content full_size">
-                <div id="padding_left" class="padding_left full_size" contenteditable="true"
-                     style="width: calc(100% - 10px);"></div>
-                <div id="paper_text" contenteditable="true" class="paper_text"></div>
+                <div id="padding_left" class="padding_left full_size" contenteditable="true"></div>
+                <div id="paper_text" contenteditable="plaintext-only" class="paper_text"></div>
             </div>
 
         </div>
@@ -29,67 +28,76 @@
     <div class="input_container full_size">
 
         <div>
-            <label for="input_custom_font_url">Custom font url</label>
+            <label for="font_url">Custom font url</label>
             <div>
-                <input type="url" id="input_custom_font_url">
+                <input type="url" id="font_url" class="--font-url">
                 <button id="button_change_font">Change Font</button>
             </div>
         </div>
+        <br>
 
         <div>
-            <label for="input_font_size">Font size</label>
-            <input id="input_font_size" type="number" min="1" value="14">
+            <label for="font_size">Font size</label>
+            <input id="font_size" class="--font-size px" type="number" min="1" value="14">
         </div>
 
         <div>
-            <label for="input_font_bold">Bold font</label>
-            <input id="input_font_bold" type="checkbox">
+            <label for="font_bold">Bold font</label>
+            <input id="font_bold" class="--font-weight" type="checkbox">
         </div>
 
         <div>
-            <label for="input_line_spacing">Line spacing</label>
-            <input id="input_line_spacing" type="number" min="1" value="20.15">
+            <label for="line_spacing">Line spacing</label>
+            <input id="line_spacing" class="--line-spacing px" type="number" min="1" value="20.15">
         </div>
 
         <div>
-            <label for="input_text_margin_left">Text left margin</label>
-            <input id="input_text_margin_left" type="number" value="8">
+            <label for="text_margin_left">Text left margin</label>
+            <input id="text_margin_left" class="--text-margin-left px" type="number" value="8">
         </div>
 
         <div>
-            <label for="input_padding_line_color">Padding line color</label>
-            <input id="input_padding_line_color" type="color" value="#E00025">
+            <label for="padding_line_color">Padding line color</label>
+            <input id="padding_line_color" class="--padding-line-color" type="color" value="#E00025">
         </div>
 
         <div>
-            <label for="input_padding_line_width">Padding line width</label>
-            <input id="input_padding_line_width" type="number" min="0" value="2">
+            <label for="padding_line_width">Padding line width</label>
+            <input id="padding_line_width" class="--padding-line-width px" type="number" min="0" value="2">
         </div>
 
         <div>
-            <label for="input_padding_top_height">Padding top height</label>
-            <input id="input_padding_top_height" type="number" min="0" value="58">
+            <label for="padding_top_height">Padding top height</label>
+            <input id="padding_top_height" class="--padding-top-height px" type="number" min="0" value="58">
         </div>
 
         <div>
-            <label for="input_padding_left_width">Padding left width</label>
-            <input id="input_padding_left_width" type="number" value="10">
+            <label for="padding_top_line_spacing">Padding top line spacing</label>
+            <input id="padding_top_line_spacing" class="--padding-top-line-spacing px" type="number" min="1" value="18">
         </div>
 
         <div>
-            <label for="input_background_line_color">Background line color</label>
-            <input id="input_background_line_color" type="color" value="#999999">
+            <label for="padding_left_width">Padding left width</label>
+            <input id="padding_left_width" class="--padding-left-width px" type="number" value="0">
         </div>
 
         <div>
-            <label for="input_background_line_width">Background line width</label>
-            <input id="input_background_line_width" type="number" min="0" value="2">
+            <label for="background_line_color">Background line color</label>
+            <input id="background_line_color" class="--background-line-color" type="color" value="#999999">
         </div>
 
         <div>
-            <label for="input_background_line_spacing">Background line spacing</label>
-            <input id="input_background_line_spacing" type="number" min="1" value="20">
+            <label for="background_line_width">Background line width</label>
+            <input id="background_line_width" class="--background-line-width px" type="number" min="0" value="2">
         </div>
+
+        <div>
+            <label for="background_line_spacing">Background line spacing</label>
+            <input id="background_line_spacing" class="--background-line-spacing px" type="number" min="1" value="20">
+        </div>
+
+        <br>
+        <button id="button_reset_settings">Reset settings</button>
 
         <br>
         <button id="button_generate">Generate</button>
