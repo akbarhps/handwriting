@@ -2,13 +2,6 @@ function updateSettings(settings) {
     document.cookie = `settings=${JSON.stringify(settings)}`;
 }
 
-let settings = {}
-const cookie = document.cookie.split(";").find(c => c.includes("settings"));
-
-if (cookie) {
-    settings = JSON.parse(cookie.split("=")[1]);
-}
-
 function updateElementStyle(input, fromSetting = false, isReset = false) {
     const property = input.classList[0];
     const unit = input.classList[1];
@@ -52,6 +45,13 @@ function updateStyles(isReset = false) {
             });
         }
     }
+}
+
+let settings = {}
+const cookie = document.cookie.split(";").find(c => c.includes("settings"));
+
+if (cookie) {
+    settings = JSON.parse(cookie.split("=")[1]);
 }
 
 updateStyles(false);
