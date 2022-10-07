@@ -34,7 +34,21 @@ function updateElementStyle(input, fromSetting = false, isReset = false) {
     document.documentElement.style.setProperty(property, `${value}`);
 }
 
-function updateStyles(isReset = false) {
+function updatePaperSize(settings) {
+    if (settings['paper_width']) {
+        container.style.width = settings['paper_width'] + 'px';
+    } else {
+        container.style.width = '100%';
+    }
+
+    if (settings['paper_height']) {
+        container.style.height = settings['paper_height'] + 'px';
+    } else {
+        container.style.height = '100%';
+    }
+}
+
+function updateStyles(settings, isReset = false) {
     for (let input of document.getElementsByTagName("input")) {
         updateElementStyle(input, true, isReset);
 
@@ -61,21 +75,15 @@ new ResizeObserver((e) => {
     updateSettings(settings);
 }).observe(container);
 
-if(settings['paper_width']) {
-    container.style.width = settings['paper_width'] + 'px';
-}
-
-if(settings['paper_height']) {
-    container.style.height = settings['paper_height'] + 'px';
-}
-
-updateStyles(false);
+updatePaperSize(settings);
+updateStyles(settings, true);
 
 const buttonResetSettings = document.getElementById("button_reset_settings");
 buttonResetSettings.addEventListener("click", () => {
     settings = {};
     updateSettings(settings);
-    updateStyles(true);
+    updateStyles(settings, true);
+    updatePaperSize(settings);
 });
 
 const buttonGenerate = document.getElementById("button_generate");
