@@ -54,10 +54,25 @@ if (cookie) {
     settings = JSON.parse(cookie.split("=")[1]);
 }
 
+const container = document.getElementById("paper_container");
+new ResizeObserver((e) => {
+    settings['paper_width'] = e[0].contentRect.width;
+    settings['paper_height'] = e[0].contentRect.height;
+    updateSettings(settings);
+}).observe(container);
+
+if(settings['paper_width']) {
+    container.style.width = settings['paper_width'] + 'px';
+}
+
+if(settings['paper_height']) {
+    container.style.height = settings['paper_height'] + 'px';
+}
+
 updateStyles(false);
 
 const buttonResetSettings = document.getElementById("button_reset_settings");
-buttonResetSettings.addEventListener("click",  () => {
+buttonResetSettings.addEventListener("click", () => {
     settings = {};
     updateSettings(settings);
     updateStyles(true);
@@ -65,7 +80,6 @@ buttonResetSettings.addEventListener("click",  () => {
 
 const buttonGenerate = document.getElementById("button_generate");
 buttonGenerate.addEventListener("click", () => {
-    const container = document.getElementById("paper_container");
     html2canvas(container, {
         scale: 5,
     }).then(canvas => {
