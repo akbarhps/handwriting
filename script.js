@@ -31,6 +31,11 @@ function updateElementStyle(input, fromSetting = false, isReset = false) {
         value = input.checked ? 'bold' : 'normal';
     }
 
+    if (property === '--paper-width' || property === '--paper-height') {
+        updatePaperSize(settings);
+        return;
+    }
+
     document.documentElement.style.setProperty(property, `${value}`);
 }
 
@@ -46,6 +51,9 @@ function updatePaperSize(settings) {
     } else {
         container.style.height = '100%';
     }
+
+    document.getElementById('paper_width').value = settings['paper_width'];
+    document.getElementById('paper_height').value = settings['paper_height'];
 }
 
 function updateStyles(settings, isReset = false) {
@@ -72,25 +80,24 @@ const container = document.getElementById("paper_container");
 new ResizeObserver((e) => {
     settings['paper_width'] = e[0].contentRect.width;
     settings['paper_height'] = e[0].contentRect.height;
+    updatePaperSize(settings);
     updateSettings(settings);
 }).observe(container);
 
 updatePaperSize(settings);
-updateStyles(settings, true);
+updateStyles(settings, false);
 
 const buttonResetSettings = document.getElementById("button_reset_settings");
 buttonResetSettings.addEventListener("click", () => {
     settings = {};
-    updateSettings(settings);
     updateStyles(settings, true);
     updatePaperSize(settings);
+    updateSettings(settings);
 });
 
 const buttonGenerate = document.getElementById("button_generate");
 buttonGenerate.addEventListener("click", () => {
-    html2canvas(container, {
-        scale: 5,
-    }).then(canvas => {
+    html2canvas(container, {scale: 5}).then(canvas => {
         document.body.appendChild(canvas);
     });
 });
