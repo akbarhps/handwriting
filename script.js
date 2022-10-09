@@ -1,4 +1,33 @@
+const container = document.getElementById("paper_container");
+const paperType = document.getElementById("paper_type");
+const paperWidth = document.getElementById("paper_width");
+const paperHeight = document.getElementById("paper_height");
+
+const buttonResetSettings = document.getElementById("button_reset_settings");
+const buttonGenerate = document.getElementById("button_generate");
+
+let settings = {}
+const cookie = document.cookie.split(";").find(c => c.includes("settings"));
+if (cookie) {
+    settings = JSON.parse(cookie.split("=")[1]);
+}
+
+const standardPaperSize = {
+    CUSTOM: undefined,
+    A4: [793.701, 1122.520],
+    A5: [559.37007874, 793.7007874],
+    FOLIO: [816, 1248],
+}
+
+for (let type of Object.keys(standardPaperSize)) {
+    const option = document.createElement("option");
+    option.value = type;
+    option.innerText = type;
+    paperType.appendChild(option);
+}
+
 function updateSettings(settings) {
+    console.log(settings);
     document.cookie = `settings=${JSON.stringify(settings)}`;
 }
 
@@ -11,7 +40,7 @@ function updateElementStyle(input, fromSetting = false, isReset = false) {
         input.checked = input.defaultChecked
     }
 
-    if (fromSetting) {
+    if (fromSetting && !isReset) {
         input.value = settings[input.id] ? settings[input.id] : input.value;
 
         if (input.type === 'checkbox') {
@@ -39,7 +68,7 @@ function updateElementStyle(input, fromSetting = false, isReset = false) {
     document.documentElement.style.setProperty(property, `${value}`);
 }
 
-function updatePaperSize(settings) {
+function updatePaperSize(settings, type = "CUSTOM") {
     if (settings['paper_width']) {
         container.style.width = settings['paper_width'] + 'px';
     } else {
@@ -52,8 +81,9 @@ function updatePaperSize(settings) {
         container.style.height = '100%';
     }
 
-    document.getElementById('paper_width').value = settings['paper_width'];
-    document.getElementById('paper_height').value = settings['paper_height'];
+    paperType.value = type;
+    paperWidth.value = settings['paper_width'];
+    paperHeight.value = settings['paper_height'];
 }
 
 function updateStyles(settings, isReset = false) {
@@ -69,35 +99,32 @@ function updateStyles(settings, isReset = false) {
     }
 }
 
-let settings = {}
-const cookie = document.cookie.split(";").find(c => c.includes("settings"));
+paperType.addEventListener("input", function () {
+    const paperSize = standardPaperSize[paperType.value];
+    if (!paperSize) {
+        updatePaperSize(settings);
+        return;
+    }
 
-if (cookie) {
-    settings = JSON.parse(cookie.split("=")[1]);
-}
+    settings['paper_width'] = paperSize[0];
+    settings['paper_height'] = paperSize[1];
 
-const container = document.getElementById("paper_container");
-new ResizeObserver((e) => {
-    settings['paper_width'] = e[0].contentRect.width;
-    settings['paper_height'] = e[0].contentRect.height;
-    updatePaperSize(settings);
-    updateSettings(settings);
-}).observe(container);
-
-updatePaperSize(settings);
-updateStyles(settings, false);
-
-const buttonResetSettings = document.getElementById("button_reset_settings");
-buttonResetSettings.addEventListener("click", () => {
-    settings = {};
-    updateStyles(settings, true);
-    updatePaperSize(settings);
+    updatePaperSize(settings, paperType.value);
     updateSettings(settings);
 });
 
-const buttonGenerate = document.getElementById("button_generate");
+buttonResetSettings.addEventListener("click", () => {
+    settings = {};
+    updatePaperSize(settings);
+    updateStyles(settings, true);
+    updateSettings(settings);
+});
+
 buttonGenerate.addEventListener("click", () => {
     html2canvas(container, {scale: 5}).then(canvas => {
         document.body.appendChild(canvas);
     });
 });
+
+updatePaperSize(settings);
+updateStyles(settings, false);
